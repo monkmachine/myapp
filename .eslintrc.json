@@ -1,0 +1,9 @@
+{   
+    "extends": ["eslint:recommended", "airbnb"],
+    "env": {
+        "node": true        
+    },
+    "parserOptions": {
+        "ecmaVersion": 6
+      }
+ }
