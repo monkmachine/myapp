@@ -11,6 +11,7 @@ router.get('/', function (req, res) {
     var reqToken = req.header("Authorization").replace('Bearer ', '');
 
     console.log(reqToken);
+<<<<<<< HEAD
     isAuth(reqToken, function (error, googparse) {
         if (error) {
             res.status(401).end();
@@ -21,6 +22,17 @@ router.get('/', function (req, res) {
             // googleEmail = 'danC1';
             que = 'CALL ep_ico.getUser(?, @token ,@p_userJSON);';
             console.log(email);
+=======
+    isAuth(reqToken, function(error, email) {
+        if (error) {
+            // do something with this error
+        }
+
+        getConnection(function (err, con) {
+            if (err) throw err;
+            // googleEmail = 'danC1';
+            que = 'CALL elepig.getUser(?, @p_userJSON);';
+>>>>>>> f5ae9c96995491060586b395ae91228b7e2e83e0
             con.query(que, [email], function (err, results) {
                 if (err) throw err;
                 else
@@ -29,11 +41,18 @@ router.get('/', function (req, res) {
                 var datapackstr = JSON.stringify(results[0]);
                 console.log('>> datapackstr: ', datapackstr);
                 if (datapackstr == '[{"@p_userJSON":null}]') {
+<<<<<<< HEAD
                     res.status(401).end();
                 } else {
                     var datapack = JSON.parse(JSON.parse(JSON.parse(datapackstr.substring((datapackstr.lastIndexOf('@p_userJSON') + 12) + 1).slice(0, -2))));
                     res.json(datapack);
 
+=======
+                    res.send('')
+                } else {
+                    var datapack = JSON.parse(JSON.parse(datapackstr.substring((datapackstr.lastIndexOf('@p_userJSON') + 12) + 1).slice(0, -2)));
+                    res.json(datapack);
+>>>>>>> f5ae9c96995491060586b395ae91228b7e2e83e0
                 };
             });
         });

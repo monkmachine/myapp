@@ -7,13 +7,12 @@ function isAuth(reqToken, callback) {
     var qualurl = 'https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=' + reqToken;
     var options = { method: 'GET', url: qualurl };
 
-    request(options, function (error, response, googparse) {
+    request(options, function (error, response, body) {
         if (error) {
             callback(error);
         }
 
-        googparse =JSON.parse(response.body);
-        callback(null, googparse);
+        callback(null, body.email);
     })
 };
 
