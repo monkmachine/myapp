@@ -10,28 +10,31 @@ const isAuth = require('../auth');
 router.get('/', function (req, res) {
     var reqToken = req.header("Authorization").replace('Bearer ','');
     console.log(reqToken);
-    isAuth(reqToken);
-    getConnection(function (err, con) {
-        if (err) throw err;
-        googleEmail = 'danC1';
-        que = 'CALL elepig.getUser(?, @p_userJSON);';
-        con.query(que, [googleEmail], function (err, results) {
+    isAuth(reqToken, function(error, email) {
+        if (error) {
+            // do something with this error
+        }
+
+        getConnection(function (err, con) {
             if (err) throw err;
-            else
-                con.release();
-            console.log('>> results: ', results);
-            var datapackstr = JSON.stringify(results[0]);
-            console.log('>> datapackstr: ', datapackstr);
-            if (datapackstr == '[{"@p_userJSON":null}]') {
-                res.send('')
-            } else {
-                var datapack = JSON.parse(JSON.parse(datapackstr.substring((datapackstr.lastIndexOf('@p_userJSON') + 12) + 1).slice(0, -2)));
-                res.json(datapack);
-            };
+            // googleEmail = 'danC1';
+            que = 'CALL elepig.getUser(?, @p_userJSON);';
+            con.query(que, [email], function (err, results) {
+                if (err) throw err;
+                else
+                    con.release();
+                console.log('>> results: ', results);
+                var datapackstr = JSON.stringify(results[0]);
+                console.log('>> datapackstr: ', datapackstr);
+                if (datapackstr == '[{"@p_userJSON":null}]') {
+                    res.send('')
+                } else {
+                    var datapack = JSON.parse(JSON.parse(datapackstr.substring((datapackstr.lastIndexOf('@p_userJSON') + 12) + 1).slice(0, -2)));
+                    res.json(datapack);
+                };
+            });
         });
     });
-
-
 });
 
 
