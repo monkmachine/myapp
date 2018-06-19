@@ -8,7 +8,7 @@ var pool = mysql.createPool({
     host: 'localhost',
     user: 'dan',
     password: '1',
-    database: 'elepig',
+    database: 'ep_ico',
     multipleStatements: true,
 });
 
