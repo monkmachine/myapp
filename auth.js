@@ -10,8 +10,8 @@ function isAuth(reqToken, callback) {
     request(options, function (error, response, googparse) {
         if (error) {
             callback(error);
-        }
-
+        };
+        console.log('google',response.body);
         googparse =JSON.parse(response.body);
         callback(null, googparse);
     })
